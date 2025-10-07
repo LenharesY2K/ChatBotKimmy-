@@ -20,9 +20,9 @@ async function sendMessage() {
         });
         const data = await response.json();
         const aiReply = data.reply || "Não consegui responder.";
-        chatBox.innerHTML += `<p class="ai"><strong>IA:</strong> ${aiReply}</p>`;
+        chatBox.innerHTML += `<p class="ai"><strong>Kimmy:</strong> ${aiReply}</p>`;
     } catch (error) {
-        chatBox.innerHTML += `<p class="ai"><strong>IA:</strong> Erro ao conectar com o servidor.</p>`;
+        chatBox.innerHTML += `<p class="ai"><strong>Kimmy:</strong> Erro ao conectar com o servidor.</p>`;
         console.error(error);
     }
 

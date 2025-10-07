@@ -490,7 +490,6 @@ input placeholder {
   margin-left: auto;
 }
 
-/* Mensagens da IA */
 #chatBox p.ai {
   background-color: #2c2c2c1a;
   color: #ffee00;
