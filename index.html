@@ -24,7 +24,7 @@
     <div class="content">
         <div class="sidebar">
             <div class="option-menu-icons">
-                <i class="right-icon fa fa-gear fa-3x"></i>
+                <i class="right-icon fa fa-memory fa-3x"></i>
                 <i class="left-icon fa fa-user fa-3x"></i>
             </div>
 
@@ -38,12 +38,20 @@
 
 
         <div class="input-baseline">
-            <input type="text" placeholder="Type your message..." />
-            <button><i class="fa fa-right-to-bracket fa-2x "></i></button>
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button onclick="sendMessage()"><i class="fa fa-right-to-bracket fa-2x "></i></button>
         </div>
+    </div>
+    
+    <div class="chat-header">
+
+        <div id="chatBox"></div>
+
     </div>
 
     <script src="particle.js"></script>
+
+    <script src="chatbox.js"></script>
 </body>
 
 </html>
