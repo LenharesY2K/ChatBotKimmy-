@@ -13,23 +13,27 @@ async function sendMessage() {
     chatBox.innerHTML += `<p class="user">${message}</p>`;
 
     try {
-        const response = await fetch('chat.php', {
+        const response = await fetch('http://localhost:3000/chat', {  // URL do seu backend
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({ message })
         });
+
         const data = await response.json();
         const aiReply = data.reply || "Não consegui responder.";
         typeMessage(`Kimmy: ${aiReply}`);
 
     } catch (error) {
         typeMessage("Kimmy: Erro ao conectar com o servidor.");
-        console.error(error);
+        console.error("Erro:", error);
     }
 
     inputEl.value = '';
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
 
 function typeMessage(message, delay = 50) {
     const chatBox = document.getElementById('chatBox');
