@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <title>Index</title>
 </head>
 
@@ -24,16 +24,34 @@
     <div class="content">
         <div class="sidebar">
             <div class="option-menu-icons">
-                <i class="right-icon fa fa-memory fa-3x"></i>
+                <i class="right-icon fa fa-fish"></i>
                 <i class="left-icon fa fa-user fa-3x"></i>
             </div>
-
             <ul>
-                <div class="option-menu">
-                    <i class="fa fa-pen-to-square fa-2x"></i>
-                    <li><a href="#">New Chat!</a></li>
-                </div>
+                <li>
+                    <div class="option-menu">
+                        <i class="fa fa-pen-to-square fa-2x"></i>
+                        <a href="#">New Chat</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="option-menu">
+                        <i class="fa fa-magnifying-glass"></i>
+                        <a href="#">Search</a>
+                    </div>
+                </li>
             </ul>
+            <span class="span-sidebar">
+                <h1>Chats</h1>
+            </span>
+            <ul>
+                <li>
+                    <div class="option-menu">
+                        <a href="#">Chat 1 Example...</a>
+                    </div>
+                </li>
+            </ul>
+
         </div>
 
 
@@ -42,7 +60,7 @@
             <button onclick="sendMessage()"><i class="fa fa-right-to-bracket fa-2x "></i></button>
         </div>
     </div>
-    
+
     <div class="chat-header">
 
         <div id="chatBox"></div>
