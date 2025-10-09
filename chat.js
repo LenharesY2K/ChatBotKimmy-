@@ -27,4 +27,4 @@ app.post('/chat', async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log('Backend rodando na porta 3000'));
+app.listen(3000, () => console.log('Servidor Inciado'));

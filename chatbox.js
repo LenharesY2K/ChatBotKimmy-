@@ -45,10 +45,8 @@ function typeMessage(message, delay = 10) {
     p.classList.add('ai');
     chatBox.appendChild(p);
 
-    // Converte **texto** em <b>texto</b>
     let formatted = message.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
-    // Escapa caracteres especiais, exceto tags <b>
     formatted = formatted.replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
