@@ -1,8 +1,26 @@
 {
+  "type": "module",
+  "name": "gemini-app",
+  "version": "1.0.0",
+  "main": "chat.js",
   "dependencies": {
-    "type": "module",
+    "@google/genai": "^1.23.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "openai": "^6.2.0"
-  }
+    "express": "^5.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LenharesY2K/ChatBotKimmy-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LenharesY2K/ChatBotKimmy-/issues"
+  },
+  "homepage": "https://github.com/LenharesY2K/ChatBotKimmy-#readme",
+  "description": ""
 }
