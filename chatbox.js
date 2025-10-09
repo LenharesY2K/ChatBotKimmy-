@@ -2,7 +2,7 @@ const inputEl = document.getElementById('userInput');
 const chatBox = document.getElementById('chatBox');
 const chatList = document.getElementById('chatList');
 
-inputEl.addEventListener('keydown', function(e) {
+inputEl.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') sendMessage();
 });
 
@@ -50,11 +50,11 @@ function typeMessage(message, delay = 10) {
 
     // Escapa caracteres especiais, exceto tags <b>
     formatted = formatted.replace(/&/g, "&amp;")
-                         .replace(/</g, "&lt;")
-                         .replace(/>/g, "&gt;")
-                         .replace(/"/g, "&quot;")
-                         .replace(/'/g, "&#039;")
-                         .replace(/&lt;b&gt;(.*?)&lt;\/b&gt;/g, "<b>$1</b>");
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/&lt;b&gt;(.*?)&lt;\/b&gt;/g, "<b>$1</b>");
 
     let i = 0;
     const cursor = document.createElement('span');
