@@ -45,55 +45,74 @@ function typeMessage(message, delay = 10) {
     p.classList.add('ai');
     chatBox.appendChild(p);
 
+    // Mantém negrito **texto**
     let formatted = message.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
-    formatted = formatted.replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;")
-        .replace(/&lt;b&gt;(.*?)&lt;\/b&gt;/g, "<b>$1</b>");
-
-    let i = 0;
     const cursor = document.createElement('span');
     cursor.classList.add('cursor');
     cursor.textContent = '|';
     p.appendChild(cursor);
 
+    // Divide o texto em blocos de código e texto normal
+    const parts = formatted.split(/(```[\s\S]*?```)/g);
+
+    let partIndex = 0;
+    let charIndex = 0;
+
     function typeChar() {
-        if (i >= formatted.length) {
+        if (partIndex >= parts.length) {
             cursor.remove();
             chatBox.scrollTop = chatBox.scrollHeight;
             return;
         }
 
-        const nextChar = formatted[i];
+        const currentPart = parts[partIndex];
 
-        if (nextChar === '<') {
-            const tagEnd = formatted.indexOf('>', i);
-            if (tagEnd !== -1) {
-                const tag = formatted.slice(i, tagEnd + 1);
-                const temp = document.createElement('span');
-                temp.innerHTML = tag;
-                while (temp.firstChild) {
-                    p.insertBefore(temp.firstChild, cursor);
-                }
-                i = tagEnd + 1;
-            } else {
-                p.insertBefore(document.createTextNode(nextChar), cursor);
-                i++;
-            }
-        } else if (nextChar === '\n') {
-            const br = document.createElement('br');
-            p.insertBefore(br, cursor);
-            i++;
+        if (currentPart.startsWith('```')) {
+            // Bloco de código: insere de uma vez
+            const codeContent = currentPart.slice(3, -3); // remove as crases
+            const codeEl = document.createElement('pre');
+            codeEl.textContent = codeContent;
+            p.insertBefore(codeEl, cursor);
+            partIndex++;
+            charIndex = 0;
+            setTimeout(typeChar, delay);
         } else {
-            cursor.insertAdjacentText('beforebegin', nextChar);
-            i++;
-        }
+            // Texto normal: digita letra por letra
+            if (charIndex >= currentPart.length) {
+                partIndex++;
+                charIndex = 0;
+                setTimeout(typeChar, delay);
+                return;
+            }
 
-        chatBox.scrollTop = chatBox.scrollHeight;
-        setTimeout(typeChar, delay);
+            const nextChar = currentPart[charIndex];
+            if (nextChar === '<') {
+                const tagEnd = currentPart.indexOf('>', charIndex);
+                if (tagEnd !== -1) {
+                    const tag = currentPart.slice(charIndex, tagEnd + 1);
+                    const temp = document.createElement('span');
+                    temp.innerHTML = tag;
+                    while (temp.firstChild) {
+                        p.insertBefore(temp.firstChild, cursor);
+                    }
+                    charIndex = tagEnd + 1;
+                } else {
+                    p.insertBefore(document.createTextNode(nextChar), cursor);
+                    charIndex++;
+                }
+            } else if (nextChar === '\n') {
+                const br = document.createElement('br');
+                p.insertBefore(br, cursor);
+                charIndex++;
+            } else {
+                cursor.insertAdjacentText('beforebegin', nextChar);
+                charIndex++;
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(typeChar, delay);
+        }
     }
 
     typeChar();
