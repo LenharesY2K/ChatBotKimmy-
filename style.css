@@ -261,22 +261,6 @@ body {
   color: #e0d313;
 }
 
-@media (max-width: 400px) {
-  .login-container {
-    width: 90%;
-    padding: 20px;
-  }
-
-  .login-container h2 {
-    font-size: 32px;
-  }
-
-  #chatbox {
-    width: 80px;
-    height: 80px;
-  }
-}
-
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -289,7 +273,8 @@ body {
   left: 0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   padding: 30px 20px;
-  z-index: 20;
+  z-index: 2000;
+  transition: transform 0.3s ease;
 }
 
 .sidebar h3 {
@@ -398,19 +383,6 @@ body {
 
 .input-baseline button:hover {
   background: #9e9406;
-}
-
-@media (max-width: 768px) {
-  .input-baseline {
-    left: 20px;
-    width: calc(100vw - 40px);
-    padding: 12px 16px;
-    z-index: 1000;
-  }
-
-  .input-baseline input {
-    font-size: 1rem;
-  }
 }
 
 .option-menu-icons {
@@ -544,18 +516,6 @@ body {
   color: rgba(224, 210, 19, 0.82);
 }
 
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px;
-  }
-
-  .chat-header {
-    width: 95%;
-    left: 50%;
-    bottom: 50px;
-  }
-}
-
 .getStartedElements {
   align-items: center;
 }
@@ -661,4 +621,189 @@ body {
 
 .titleStarted h1 {
   transform: translateX(40px);
+}
+
+/* Botão de toggle da sidebar - apenas mobile */
+#CloseSidebar {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 2001;
+  background: rgba(224, 211, 19, 0.9);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#CloseSidebar i {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+#CloseSidebar:hover {
+  background: rgba(158, 148, 6, 0.9);
+  transform: scale(1.05);
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  #CloseSidebar {
+    display: block;
+  }
+
+  .sidebar {
+    width: 70%;
+    max-width: 280px;
+    z-index: 2000;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .chat-header {
+    width: calc(100% - 20px);
+    left: 50%;
+    bottom: 80px;
+    height: calc(100vh - 180px);
+    max-height: 600px;
+    z-index: 1000;
+    padding: 15px;
+  }
+
+  #chatBox {
+    width: 100%;
+    height: 100%;
+    padding: 15px 10px;
+  }
+
+  #chatBox p {
+    max-width: 85%;
+    font-size: 0.95rem;
+  }
+
+  .input-baseline {
+    left: 10px;
+    width: calc(100vw - 20px);
+    padding: 12px 16px;
+    z-index: 10002;
+  }
+
+  .input-baseline input {
+    font-size: 1rem;
+    padding: 10px 14px;
+  }
+
+  .input-baseline button {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .start-container {
+    width: 90%;
+    max-width: 380px;
+    padding: 30px 20px;
+  }
+
+  .start-container.active {
+    width: 90%;
+    max-width: 420px;
+  }
+
+  .getStartedElements h1 {
+    font-size: 1.5rem;
+  }
+
+  .getStartedElements h3 {
+    font-size: 1.2rem;
+    margin-bottom: 50px;
+  }
+
+  .getStartedElements button {
+    width: 90%;
+    max-width: 320px;
+    height: 65px;
+  }
+
+  .getStartedElements p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .login-container {
+    width: 90%;
+    padding: 20px;
+    height: auto;
+  }
+
+  .login-container h2 {
+    font-size: 32px;
+  }
+
+  .content h1 {
+    font-size: 2.5rem;
+  }
+
+  .chat-header {
+    bottom: 70px;
+    height: calc(100vh - 160px);
+    max-height: 550px;
+    width: calc(100% - 10px);
+    padding: 10px;
+  }
+
+  #chatBox {
+    padding: 10px 8px;
+  }
+
+  #chatBox p {
+    max-width: 90%;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+
+  .sidebar {
+    width: 85%;
+    padding: 20px 15px;
+  }
+
+  .sidebar h3 {
+    font-size: 1.4rem;
+  }
+
+  .sidebar ul li a {
+    font-size: 1rem;
+  }
+
+  .option-menu {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+
+  .input-baseline input {
+    font-size: 0.9rem;
+  }
 }
