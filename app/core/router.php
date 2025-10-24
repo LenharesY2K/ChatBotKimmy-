@@ -1,26 +1,28 @@
 <?php
 
-class Router {
-    public static function route($url) {
-     
+class Router
+{
+    public static function route($url)
+    {
+
         $url = explode('?', $url)[0];
 
         switch ($url) {
             case '/':
-                require_once '../app/controllers/HomeController.php';
+                require_once __DIR__ . '/../controllers/HomeController.php';
                 $controller = new HomeController();
                 $controller->index();
                 break;
 
-            case '/get-started':
-                require_once '../app/controllers/HomeController.php';
+            case '/getStarted':
+                require_once __DIR__ . '/../controllers/HomeController.php';
                 $controller = new HomeController();
                 $controller->getStarted();
                 break;
 
-                case '/login':
-                require_once '../app/controllers/HomeController.php';
-                $controller = new HomeController();
+            case '/login':
+                require_once '../controllers/UserController.php';
+                $controller = new UserController();
                 $controller->login();
                 break;
 

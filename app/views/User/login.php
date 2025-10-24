@@ -1,15 +1,7 @@
-￻<!DOCTYPE html>
-<html lang="pt-BR">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
 
-<body>
+<?php include '../Templates/header.php'; ?>
+
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
   <div class="orb orb3"></div>
@@ -76,6 +68,5 @@
       particlesContainer.appendChild(particle);
     }
   </script>
-</body>
 
-</html>
+<?php include '../Templates/footer.php'; ?>
