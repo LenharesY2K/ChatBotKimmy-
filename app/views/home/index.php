@@ -1,7 +1,7 @@
  
-<?php include '../Templates/header.php'; ?>
+<?php include __DIR__ . '/../Templates/header.php'; ?>
 
- <div class="orb orb1"></div>
+    <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
     <div class="orb orb4"></div>
@@ -24,9 +24,9 @@
             </div>
             <ul>
                 <li>
-                    <div class="option-menu tooltip">
+                    <div class="option-menu tooltip" id ="newChat">
                         <i class="fa fa-pen-to-square fa-2x"></i>
-                        <a href="#">New Chat</a>
+                        <a>New Chat</a>
                     </div>
                 </li>
                 <li>
@@ -58,4 +58,4 @@
 
     </div>
 
-<?php include '../Templates/footer.php'; ?>
+<?php include __DIR__ . '/../Templates/footer.php'; ?>

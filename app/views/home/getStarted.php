@@ -1,4 +1,4 @@
-<?php include '../Templates/header.php'; ?>
+<?php include __DIR__ . '/../Templates/header.php'; ?>
 
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
@@ -24,6 +24,6 @@
     </div>
 </div>
 
-<img src="byPL.png" alt="Logo" style="position: absolute; top: 20px; left: 20px; width: 120px; height: auto;">
+<img src="IMG/byPL.png" alt="Logo" style="position: absolute; top: 20px; left: 20px; width: 120px; height: auto;">
 
-<?php include '../Templates/footer.php'; ?>
+<?php include __DIR__ . '/../Templates/footer.php'; ?>

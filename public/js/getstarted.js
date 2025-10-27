@@ -6,5 +6,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 100); 
 });
 document.getElementById('btn-getStarted').onclick = function() {
-  window.location.href = "index.html";
+  window.location.href = "/login";
 };

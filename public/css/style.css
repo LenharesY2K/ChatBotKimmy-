@@ -190,7 +190,7 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-  height: 320px;
+  height: 360px;
   position: relative;
   backdrop-filter: blur(10px);
 }
@@ -201,6 +201,18 @@ body {
   font-family: Poppins, sans-serif;
   font-weight: 600;
   font-size: 42px;
+}
+
+.a_login {
+  font-family: 'Poppins', sans-serif;
+  color: #ffee00;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.a_login:hover,
+.a_login:focus {
+  color: #9e9406;
 }
 
 .login-container input {
@@ -236,6 +248,7 @@ body {
   cursor: pointer;
   transition: background 0.3s;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
 .login-container button:hover {
@@ -806,4 +819,66 @@ body {
   .input-baseline input {
     font-size: 0.9rem;
   }
+}
+
+.register-container {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 40px;
+  border-radius: 40px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.048);
+  width: 320px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 440px;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.register-container h2 {
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-family: Poppins, sans-serif;
+  font-weight: 600;
+  font-size: 42px;
+}
+
+.register-container input {
+  width: 90%;
+  padding: 12px;
+  margin: 7px 0;
+  border: 3px solid rgba(109, 103, 19, 0.27);
+  border-radius: 20px;
+  outline: none;
+  transition: border 0.4s;
+  font-family: Poppins, sans-serif;
+}
+
+.register-container input:focus {
+  border: 3px solid #e0d313;
+}
+
+.register-container input::placeholder {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  color: rgba(185, 174, 27, 0.27);
+}
+
+.register-container button {
+  width: 100%;
+  padding: 12px;
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+  background: #e0d313;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.register-container button:hover {
+  background: #9e9406;
 }

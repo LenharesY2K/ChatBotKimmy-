@@ -1,5 +1,4 @@
 <?php
-
 class Router
 {
     public static function route($url)
@@ -20,8 +19,14 @@ class Router
                 $controller->getStarted();
                 break;
 
-            case '/login':
-                require_once '../controllers/UserController.php';
+            case '/register':
+                require_once __DIR__ . '/../controllers/UserController.php';
+                $controller = new UserController();
+                $controller->register();
+                break;
+
+                 case '/login':
+                require_once __DIR__ . '/../controllers/UserController.php';
                 $controller = new UserController();
                 $controller->login();
                 break;
