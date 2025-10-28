@@ -24,7 +24,6 @@ class ChatController
 
         $this->messageModel->create($chatId, 'user', $message);
 
-        // Resposta AI
         $aiReply = "Resposta automática da AI";
         $this->messageModel->create($chatId, 'ai', $aiReply);
 
