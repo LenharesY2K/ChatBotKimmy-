@@ -57,10 +57,10 @@ class Router
                 break;
             case '/user/update':
                 session_start();
-                $userId = $_SESSION['user_id'] ?? null; 
+                $userId = $_SESSION['user_id'] ?? null;
                 require_once __DIR__ . '/../controllers/UserController.php';
                 $controller = new UserController($pdo);
-                $controller->update(); 
+                $controller->update();
                 break;
             default:
                 http_response_code(404);
