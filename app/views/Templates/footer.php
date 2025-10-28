@@ -4,7 +4,7 @@
 
  <script src="/js/Sidebar.JS"></script>
 
- <script src="/js/getStarted.JS"></script>
+ <script src="/js/getstarted.js"></script>
 
  <script src="/js/UserInfo.js"></script>
 

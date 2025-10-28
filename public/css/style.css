@@ -1176,7 +1176,7 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-  height: 500px;
+  height: 520px;
   position: relative;
   backdrop-filter: blur(10px);
   font-family: Poppins, sans-serif;
@@ -1311,7 +1311,7 @@ body {
   cursor: pointer;
   transition: background 0.4s;
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   transform: translateX(11px);
 }
 
@@ -1366,7 +1366,7 @@ body {
 .end-session {
   text-align: center;
   margin-bottom: 20px;
-  transform: translateY(2500%);
+  transform: translateY(2300%);
 }
 
 .logout-btn {
@@ -1386,5 +1386,5 @@ body {
 }
 
 .logout-btn:hover {
-  color: #9e9406;/
+  color: #9e9406;
 }

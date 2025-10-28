@@ -13,7 +13,7 @@ class HomeController
 
         $userId = $_SESSION['user_id'];
 
-        require_once __DIR__ . '/../models/User.php';
+        require_once __DIR__ . '/../models/user.php';
         $userModel = new User();
 
         $user = $userModel->getById($userId);

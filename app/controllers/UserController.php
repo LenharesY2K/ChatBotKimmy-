@@ -1,6 +1,6 @@
 <?php require_once __DIR__ . '/../core/database.php';
 
-require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/user.php';
 
 class UserController
 {
@@ -14,7 +14,7 @@ class UserController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once '../app/models/User.php';
+            require_once '../app/models/user.php';
             $userModel = new User();
 
             $email = $_POST['email'] ?? '';
@@ -35,14 +35,14 @@ class UserController
                 echo "<script>alert('Preencha todos os campos!');</script>";
             }
         } else {
-            require '../app/views/user/login.php';
+            require __DIR__ . '/../views/User/login.php';
         }
     }
 
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once '../app/models/User.php';
+            require_once '../app/models/user.php';
             $userModel = new User();
 
             $username = $_POST['username'] ?? '';
@@ -58,7 +58,7 @@ class UserController
                 echo "<script>alert('Preencha todos os campos!');</script>";
             }
         } else {
-            require '../app/views/user/cadastrar.php';
+            require '../app/views/User/cadastrar.php';
         }
     }
 
@@ -82,7 +82,7 @@ class UserController
             'username' => $user['username'],
             'email' => $user['email']
         ];
-        include '../app/views/user/UserInfo.php';
+        include '../app/views/User/UserInfo.php';
     }
 
     public function fish($userId)
@@ -93,7 +93,7 @@ class UserController
             include '../app/views/errors/404.php';
         }
 
-        require '../app/views/user/Fish.php';
+        require '../app/views/User/Fish.php';
     }
 
     public function update()
