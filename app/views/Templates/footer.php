@@ -8,6 +8,8 @@
 
  <script src="/js/UserInfo.js"></script>
 
+ <script src="/js/Image.js"></script>
+
  </body>
 
  </html>

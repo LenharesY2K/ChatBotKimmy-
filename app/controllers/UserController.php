@@ -51,6 +51,7 @@ class UserController
 
             if ($username && $email && $password) {
                 $userId = $userModel->create($username, $email, $password);
+                echo "<script>alert('Usuario criado com successo!');</script>";
                 header('Location: /login');
                 exit();
             } else {
@@ -63,6 +64,7 @@ class UserController
 
     public function userInfo($userId)
     {
+
         if (!$userId) {
             http_response_code(401);
             return;
@@ -96,12 +98,12 @@ class UserController
 
     public function update()
     {
-
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
             echo "Método não permitido.";
             return;
         }
+
         $id = $_POST['id'] ?? null;
         $username = $_POST['username'] ?? null;
         $email = $_POST['email'] ?? null;
@@ -111,15 +113,26 @@ class UserController
             echo "Todos os campos são obrigatórios.";
             return;
         }
-
         $updated = $this->userModel->update($id, $username, $email);
 
-        if ($updated) {
-            $this->userInfo($id);
-            echo "<script>alert('Usuário atualizado com sucesso!');</script>";
-        } else {
-            http_response_code(500);
-            echo "<script>alert('Erro ao atualizar usuario!');</script>";
+        if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+            $arquivoTmp = $_FILES['imagem']['tmp_name'];
+            $nomeOriginal = $_FILES['imagem']['name'];
+            $extensao = strtolower(pathinfo($nomeOriginal, PATHINFO_EXTENSION));
+            $permitidos = ['jpg', 'jpeg', 'png', 'gif'];
+
+            if (in_array($extensao, $permitidos)) {
+                $novoNome = uniqid('user_', true) . '.' . $extensao;
+                $uploadDir = __DIR__ . '/../../public/uploads/';
+                $destino = $uploadDir . $novoNome;
+
+                if (move_uploaded_file($arquivoTmp, $destino)) {
+                    $fileUrl = '/uploads/' . $novoNome;
+                    $this->userModel->updateProfileImage($id, $fileUrl);
+                }
+            }
         }
+        header("Location: /userInfo?success=1");
+        exit;
     }
 }

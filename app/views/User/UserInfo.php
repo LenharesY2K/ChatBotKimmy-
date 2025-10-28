@@ -18,20 +18,29 @@
 
     <div class="user-container">
         <h2>Userinfo</h2>
-        <div class="profile-frame">
-            <div class="frame-ring"></div>
-            <img src="caminho/para/foto-usuario.jpg" alt="Foto do usuário" class="profile-photo">
-        </div>
-        <form action="/user/update" method="POST">
+
+        <form method="POST" enctype="multipart/form-data" action="/user/update">
+            <div class="profile-frame" id="profileFrame">
+                <div class="frame-ring"></div>
+                <img
+                    id="profilePreview"
+                    src="<?= !empty($user['profile_image']) ? $user['profile_image'] : 'uploads/default.png'; ?>"
+                    alt="Foto do usuário"
+                    class="profile-photo">
+            </div>
+
+            <input type="file" name="imagem" id="inputImagem" accept="image/*" hidden>
+
             <input type="hidden" name="id" value="<?= htmlspecialchars($data['id']) ?>">
 
-            <label for="username">Usuario</label>
+            <label for="username">Usuário</label>
             <input type="text" id="username" name="username" value="<?= htmlspecialchars($data['username']) ?>" required>
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email" value="<?= htmlspecialchars($data['email']) ?>" required>
 
             <button type="submit">Salvar</button>
+        </form>
     </div>
 </div>
 
@@ -41,4 +50,9 @@
     </script>
 <?php endif; ?>
 
-<?php include __DIR__ . '/../Templates/footer.php'; ?>
+<?php include __DIR__ . '/../Templates/footer.php';
+
+if (isset($_GET['success'])) {
+    echo "<script>alert('Usuário editado com sucesso!');</script>";
+}
+?>

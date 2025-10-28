@@ -41,8 +41,22 @@ class user
 
     public function update($id, $username, $email)
     {
-        $sql = "UPDATE users SET username = ?, email = ? WHERE id = ?";
+        $sql = "UPDATE users SET username = :username, email = :email WHERE id = :id";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$username, $email, $id]);
+        return $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':id' => $id
+        ]);
+    }
+
+    public function updateProfileImage($id, $imagePath)
+    {
+        $sql = "UPDATE users SET profile_image = :image WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ':image' => $imagePath,
+            ':id' => $id
+        ]);
     }
 }

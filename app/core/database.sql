@@ -5,6 +5,9 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL
 );
 
+ALTER TABLE users
+ADD COLUMN profile_image VARCHAR(255) DEFAULT 'public/uploads/default.png';
+
 CREATE TABLE chats (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
