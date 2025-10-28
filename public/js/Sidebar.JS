@@ -39,14 +39,51 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-document.getElementById("newChat").addEventListener("click", () => {
-  fetch("/newChat", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ userId: 1 }) 
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log("Chat Created!:", data.chatId);
-  });
+document.getElementById('newChat').addEventListener('click', () => {
+    const userId = 1; 
+
+    fetch('/router.php', { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'route=/newChat&userId=' + userId
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.chatId) {
+            const li = document.createElement('li');
+            const chatDiv = document.createElement('div');
+            chatDiv.className = 'option-menu tooltip chat-item';
+            chatDiv.dataset.chatId = data.chatId;
+            chatDiv.textContent = 'New Chat'; 
+          
+            chatDiv.addEventListener('click', () => {
+                openChatMemory(data.chatId);
+            });
+
+            li.appendChild(chatDiv);
+            document.getElementById('chatList').prepend(li);
+        }
+    })
+    .catch(err => console.error(err));
 });
+
+function openChatMemory(chatId) {
+    console.log('Abrindo chat ID:', chatId);
+    fetch('/getChat.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'chatId=' + chatId
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('Mensagens do chat:', data);
+    });
+}
+
+document.getElementById('user').onclick = function() {
+  window.location.href = "/userInfo";
+};
+
+document.getElementById('fish').onclick = function() {
+  window.location.href = "/fish";
+};

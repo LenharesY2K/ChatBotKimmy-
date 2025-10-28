@@ -1,15 +1,22 @@
 import express from 'express';
 import cors from 'cors';
 import { GoogleGenAI } from '@google/genai';
+import mysql from 'mysql2/promise';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const ai = new GoogleGenAI({
-  //colocar a chave da API dentro das ""
   apiKey: "AIzaSyDtrXR05VqpgN2fAGPt0OAtI-Kp8DicQnQ"
 });
+
+const dbConfig = {
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "kimmy_ai",
+};
 
 let conversationHistory = [
   {
@@ -18,11 +25,32 @@ let conversationHistory = [
   }
 ];
 
-app.post('/chat', async (req, res) => {
-  const { message } = req.body;
+// Criar novo chat no banco
+app.post('/chat/new', async (req, res) => {
+  const { userId } = req.body;
+  if (!userId) return res.status(400).json({ error: "Usuário não informado." });
 
   try {
+    const db = await mysql.createConnection(dbConfig);
+    const [result] = await db.query(
+      "INSERT INTO chats (user_id, name) VALUES (?, ?)",
+      [userId, "Novo Chat"]
+    );
+    const chatId = result.insertId; s
+    await db.end();
+    res.json({ chatId: result.insertId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao criar novo chat." });
+  }
+});
 
+app.post('/chat', async (req, res) => {
+  const { userId, chatId, message } = req.body;
+
+  if (!message) return res.status(400).json({ reply: "Mensagem ausente." });
+
+  try {
     const prompt = `Você é Kimmy — uma IA assistente pessoal.
 Sua forma é a de um peixinho místico dourado e branco, semelhante a uma carpa celestial que voa pelos céus. Sua missão é ser uma companheira diária de conversas, ajudando as pessoas a compreenderem seus sentimentos, funcionando como uma mascote acolhedora para viagens emocionais.
 
@@ -57,9 +85,7 @@ Mantém tom respeitoso, seguro e gentil.
 Menciona “Kimmy” apenas em momentos de entusiasmo, nunca em situações delicadas.
 
 Conversa de forma natural, como em um diálogo diário, sem ser excessivamente direta. Usuario disse" ${message}`;
-
     conversationHistory.push({ role: 'user', content: prompt });
-
     conversationHistory.push({ role: 'user', content: message });
 
     const contents = conversationHistory.map(msg => ({
@@ -73,21 +99,66 @@ Conversa de forma natural, como em um diálogo diário, sem ser excessivamente d
     });
 
     let aiReply = "Não consegui responder.";
-
     if (result?.candidates?.length > 0 && result.candidates[0].content?.parts?.length > 0) {
       aiReply = result.candidates[0].content.parts[0].text;
     }
-
     conversationHistory.push({ role: 'model', content: aiReply });
-
     if (conversationHistory.length > 20) conversationHistory.shift();
 
-    res.json({ reply: aiReply });
+    if (chatId && userId) {
+      const db = await mysql.createConnection(dbConfig);
+      await db.query(
+        "INSERT INTO messages (chat_id, sender, content) VALUES (?, ?, ?)",
+        [chatId, "user", message]
+      );
+      await db.query(
+        "INSERT INTO messages (chat_id, sender, content) VALUES (?, ?, ?)",
+        [chatId, "ai", aiReply]
+      );
+      await db.end();
+    }
 
+    res.json({ reply: aiReply });
   } catch (err) {
     console.error(err);
     res.json({ reply: "Erro ao processar a mensagem." });
   }
 });
 
-app.listen(3000, () => console.log('Kimmy esta rodando!'));
+app.get("/chat/history/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const db = await mysql.createConnection(dbConfig);
+    const [rows] = await db.query(
+      `SELECT c.id AS chat_id, c.name,
+              (SELECT content FROM messages WHERE chat_id = c.id ORDER BY created_at DESC LIMIT 1) AS last_message
+       FROM chats c
+       WHERE c.user_id = ?
+       ORDER BY c.created_at DESC`,
+      [userId]
+    );
+    await db.end();
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao carregar histórico." });
+  }
+});
+
+app.get("/chat/:chatId/messages", async (req, res) => {
+  const { chatId } = req.params;
+  try {
+    const db = await mysql.createConnection(dbConfig);
+    const [rows] = await db.query(
+      "SELECT sender, content, created_at FROM messages WHERE chat_id = ? ORDER BY created_at ASC",
+      [chatId]
+    );
+    await db.end();
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao carregar mensagens." });
+  }
+});
+
+app.listen(3000, () => console.log('Kimmy está rodando!'));
