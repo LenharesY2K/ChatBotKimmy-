@@ -7,12 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const userId = window.userId || 1;
     window.currentChatId = null;
 
-    // Permite que outros scripts definam o chat ativo
     window.setCurrentChatId = (chatId) => {
         window.currentChatId = chatId;
     };
 
-    // ---------- Criar novo chat ----------
     async function createNewChat() {
         try {
             const response = await fetch("http://localhost:3000/chat/new", {
@@ -24,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (data.chatId) {
                 addChatToSidebar(data.chatId, "Novo Chat");
 
-                // Define como chat ativo
                 window.setCurrentChatId(data.chatId);
                 chatBox.innerHTML = "";
                 loadChatMessages(data.chatId);
@@ -35,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ---------- Adicionar chat na sidebar ----------
     function addChatToSidebar(chatId, chatName) {
         const li = document.createElement("li");
         li.classList.add("chat-item");
@@ -43,8 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         li.innerHTML = `
           <div class="chat-entry">
-            <i class="fa fa-message"></i>
-            <span>${chatName}</span>
+          <i class="fa fa-message fa-lg"></i>
+          <span>${chatName}</span>
           </div>
         `;
 
@@ -56,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
         chatList.prepend(li);
     }
 
-    // ---------- Carregar histórico de chats ----------
     async function loadChatHistory() {
         try {
             const res = await fetch(`http://localhost:3000/chat/history/${userId}`);
@@ -68,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ---------- Carregar mensagens do chat ----------
     async function loadChatMessages(chatId) {
         chatBox.innerHTML = "<p>Carregando mensagens...</p>";
         try {
@@ -90,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ---------- Envio de mensagens ----------
     async function sendMessage() {
         const message = userInput.value.trim();
         if (!message || !window.currentChatId) return;
@@ -176,15 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
         typeChar();
     }
 
-    // ---------- Eventos ----------
     newChatBtn.addEventListener("click", createNewChat);
     userInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") sendMessage();
     });
 
-    // Expor função global para botão enviar
     window.sendMessage = sendMessage;
-
-    // Inicializa carregando histórico
     loadChatHistory();
 });

@@ -25,7 +25,6 @@ let conversationHistory = [
   }
 ];
 
-// Criar novo chat no banco
 app.post('/chat/new', async (req, res) => {
   const { userId } = req.body;
   if (!userId) return res.status(400).json({ error: "Usuário não informado." });
@@ -130,8 +129,12 @@ app.get("/chat/history/:userId", async (req, res) => {
   try {
     const db = await mysql.createConnection(dbConfig);
     const [rows] = await db.query(
-      `SELECT c.chat_id AS chat_id, c.name,
-          (SELECT content FROM messages WHERE chat_id = c.chat_id ORDER BY created_at DESC LIMIT 1) AS last_message
+      `SELECT c.id AS chat_id, c.name,
+          (SELECT content 
+           FROM messages 
+           WHERE chat_id = c.id 
+           ORDER BY created_at DESC 
+           LIMIT 1) AS last_message
    FROM chats c
    WHERE c.user_id = ?
    ORDER BY c.created_at DESC`,
@@ -163,4 +166,3 @@ app.get("/chat/:chatId/messages", async (req, res) => {
 
 app.listen(3000, () => console.log('Kimmy está rodando!'));
 
-fetch(`http://localhost:3000/chat/history/${userId}`)

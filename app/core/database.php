@@ -1,12 +1,14 @@
 <?php
-class Database {
-    private static $host = 'localhost';
+class Database
+{
+    private static $host = '127.0.0.1';
     private static $dbName = 'kimmy_ai';
     private static $username = 'root';
     private static $password = '';
     private static $pdo = null;
 
-    public static function connect() {
+    public static function connect()
+    {
         if (self::$pdo === null) {
             try {
                 $dsn = 'mysql:host=' . self::$host . ';dbname=' . self::$dbName . ';charset=utf8mb4';
@@ -19,7 +21,8 @@ class Database {
         return self::$pdo;
     }
 
-    public static function disconnect() {
+    public static function disconnect()
+    {
         self::$pdo = null;
     }
 }
