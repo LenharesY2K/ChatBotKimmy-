@@ -63,4 +63,8 @@
 
  </div>
 
+ <script>
+     window.userId = <?php echo json_encode($userId); ?>;
+ </script>
+
  <?php include __DIR__ . '/../Templates/footer.php'; ?>

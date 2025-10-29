@@ -10,6 +10,8 @@
 
  <script src="/js/Image.js"></script>
 
+  <script src="/js/newchat.js"></script>
+
  </body>
 
  </html>

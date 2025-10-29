@@ -36,7 +36,7 @@ app.post('/chat/new', async (req, res) => {
       "INSERT INTO chats (user_id, name) VALUES (?, ?)",
       [userId, "Novo Chat"]
     );
-    const chatId = result.insertId; s
+    const chatId = result.insertId;
     await db.end();
     res.json({ chatId: result.insertId });
   } catch (error) {
@@ -130,11 +130,11 @@ app.get("/chat/history/:userId", async (req, res) => {
   try {
     const db = await mysql.createConnection(dbConfig);
     const [rows] = await db.query(
-      `SELECT c.id AS chat_id, c.name,
-              (SELECT content FROM messages WHERE chat_id = c.id ORDER BY created_at DESC LIMIT 1) AS last_message
-       FROM chats c
-       WHERE c.user_id = ?
-       ORDER BY c.created_at DESC`,
+      `SELECT c.chat_id AS chat_id, c.name,
+          (SELECT content FROM messages WHERE chat_id = c.chat_id ORDER BY created_at DESC LIMIT 1) AS last_message
+   FROM chats c
+   WHERE c.user_id = ?
+   ORDER BY c.created_at DESC`,
       [userId]
     );
     await db.end();
@@ -162,3 +162,5 @@ app.get("/chat/:chatId/messages", async (req, res) => {
 });
 
 app.listen(3000, () => console.log('Kimmy está rodando!'));
+
+fetch(`http://localhost:3000/chat/history/${userId}`)
