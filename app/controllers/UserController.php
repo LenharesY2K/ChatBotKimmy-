@@ -29,7 +29,7 @@ class UserController
                     header('Location: /');
                     exit();
                 } else {
-                    echo "<script>alert('Email ou senha incorretos!');</script>";
+                    header('Location: /login?login_error=1');
                 }
             } else {
                 echo "<script>alert('Preencha todos os campos!');</script>";
@@ -51,11 +51,10 @@ class UserController
 
             if ($username && $email && $password) {
                 $userId = $userModel->create($username, $email, $password);
-                echo "<script>alert('Usuario criado com successo!');</script>";
-                header('Location: /login');
+                header('Location: /login?register_success=1');
                 exit();
             } else {
-                echo "<script>alert('Preencha todos os campos!');</script>";
+                header('Location: /register?error=1');
             }
         } else {
             require '../app/views/User/cadastrar.php';
@@ -80,7 +79,9 @@ class UserController
         $data = [
             'id' => $user['id'],
             'username' => $user['username'],
-            'email' => $user['email']
+            'email' => $user['email'],
+            'profile_image' => $user['profile_image']
+
         ];
         include '../app/views/User/UserInfo.php';
     }
@@ -132,7 +133,7 @@ class UserController
                 }
             }
         }
-        header("Location: /userInfo?success=1");
+        header('Location: /userInfo?update_success=1');
         exit;
     }
 }

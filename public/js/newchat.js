@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatBox = document.getElementById("chatBox");
     const userInput = document.getElementById("userInput");
 
+
     const userId = window.userId || 1;
     window.currentChatId = null;
 
@@ -18,38 +19,50 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ userId })
             });
-            const data = await response.json();
-            if (data.chatId) {
-                addChatToSidebar(data.chatId, "Novo Chat");
 
+            const data = await response.json();
+
+            if (data.chatId) {
+                addChatToSidebar(data.chatId, data.name, true);
                 window.setCurrentChatId(data.chatId);
                 chatBox.innerHTML = "";
                 loadChatMessages(data.chatId);
+                userInput.focus();
             }
         } catch (err) {
             console.error("Erro ao criar novo chat:", err);
             alert("Erro ao criar chat.");
         }
     }
-
-    function addChatToSidebar(chatId, chatName) {
+    function addChatToSidebar(chatId, chatName, select = false) {
         const li = document.createElement("li");
         li.classList.add("chat-item");
         li.dataset.chatId = chatId;
 
         li.innerHTML = `
-          <div class="chat-entry">
-          <i class="fa fa-message fa-lg"></i>
-          <span>${chatName}</span>
-          </div>
-        `;
+      <div class="chat-entry">
+        <i class="fa-regular fa-message fa-lg"></i>
+        <span>${chatName}</span>
+      </div>
+    `;
 
-        li.addEventListener("click", () => {
+        const entryDiv = li.querySelector('.chat-entry');
+
+        entryDiv.addEventListener("click", () => {
+            chatList.querySelectorAll('.chat-entry').forEach(e => e.classList.remove('selected'));
+            entryDiv.classList.add('selected');
             loadChatMessages(chatId);
             window.setCurrentChatId(chatId);
+            userInput.focus();
         });
 
         chatList.prepend(li);
+
+
+        if (select) {
+            chatList.querySelectorAll('.chat-entry').forEach(e => e.classList.remove('selected'));
+            entryDiv.classList.add('selected');
+        }
     }
 
     async function loadChatHistory() {
@@ -177,3 +190,63 @@ document.addEventListener("DOMContentLoaded", () => {
     window.sendMessage = sendMessage;
     loadChatHistory();
 });
+
+async function sendMessageWithEncodingFix() {
+    const message = userInput.value.trim();
+    if (!message) return;
+
+    try {
+        if (!window.currentChatId) {
+            const newChatId = await createNewChat();
+            if (!newChatId) return;
+            window.currentChatId = newChatId;
+        }
+
+        const pUser = document.createElement("p");
+        pUser.className = "user";
+        pUser.textContent = message;
+        chatBox.appendChild(pUser);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        userInput.value = "";
+
+        const response = await fetch("http://localhost:3000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userId,
+                chatId: window.currentChatId,
+                message
+            })
+        });
+
+        const data = await response.json();
+        let reply = data.reply || "Não consegui responder.";
+
+        // Corrige caracteres estranhos
+        reply = fixChatEncoding(reply);
+
+        // Mostra resposta da IA
+        const pAI = document.createElement("p");
+        pAI.className = "ai";
+        pAI.textContent = reply;
+        chatBox.appendChild(pAI);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    } catch (err) {
+        const pError = document.createElement("p");
+        pError.className = "ai";
+        pError.textContent = "Erro ao conectar com o servidor.";
+        chatBox.appendChild(pError);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        console.error("Erro ao enviar mensagem:", err);
+    }
+}
+
+function parseMarkdownToNodes(text) {
+    const container = document.createElement("span");
+    text = fixChatEncoding(text);
+    text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    text = text.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    container.innerHTML = text;
+    return Array.from(container.childNodes);
+}

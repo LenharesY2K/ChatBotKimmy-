@@ -24,9 +24,10 @@
                 <div class="frame-ring"></div>
                 <img
                     id="profilePreview"
-                    src="<?= !empty($user['profile_image']) ? $user['profile_image'] : 'uploads/default.png'; ?>"
+                    src="<?= str_replace('public/', '', $user['profile_image'] ?? 'uploads/default_photo.jpeg') ?>" alt="Profile"
                     alt="Foto do usuário"
                     class="profile-photo">
+                    <i class="fa-solid fa-camera camera-icon"></i>
             </div>
 
             <input type="file" name="imagem" id="inputImagem" accept="image/*" hidden>

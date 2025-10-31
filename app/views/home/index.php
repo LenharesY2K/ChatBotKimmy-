@@ -18,13 +18,13 @@
 
      <div class="sidebar">
          <div class="option-menu-icons">
-             <i class="right-icon fa fa-fish tooltip" id="fish"></i>
-             <i class="left-icon fa fa-user fa-3x tooltip" id="user"></i>
+             <i class="right-icon fa fa-fish-fins tooltip" id="fish"></i>
+             <i class="left-icon fa-regular fa-user fa-3x tooltip" id="user"></i>
          </div>
          <ul>
              <li>
                  <div class="option-menu tooltip" id="newChat">
-                     <i class="fa fa-pen-to-square fa-2x"></i>
+                     <i class="fa-regular fa-pen-to-square fa-2x"></i>
                      <a>New Chat</a>
                  </div>
              </li>
@@ -42,6 +42,7 @@
 
          </ul>
          <div class="end-session">
+            <div class="yellow-line"></div>
              <div class="logout-btn">
                  <a href="/getStarted">Sair</a>
                  <i class="fa-solid fa-power-off"></i>

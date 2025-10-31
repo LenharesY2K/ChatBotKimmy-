@@ -34,7 +34,7 @@ class user
 
     public function getById($id)
     {
-        $stmt = $this->db->prepare("SELECT id, username, email FROM users WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT id, username, email, profile_image FROM users WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

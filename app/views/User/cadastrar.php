@@ -25,7 +25,7 @@
                 <input type="password" name="password" placeholder="Senha" required>
                 <i class="fa fa-lock fa-lg"></i>
             </div>
-            <button type="submit">Entrar</button>
+            <button type="submit">Registrar</button>
             <a id="register-route" href="/login" class="a_login">Retornar a pagina de login</a>
         </form>
     </div>

@@ -25,19 +25,49 @@ let conversationHistory = [
   }
 ];
 
+async function getNextChatName(userId, customName) {
+  if (customName) return customName;
+
+  const db = await mysql.createConnection(dbConfig);
+
+  const [rows] = await db.query(
+    "SELECT name FROM chats WHERE user_id = ?",
+    [userId]
+  );
+
+  let maxNumber = 0;
+  const regex = /^Chat (\d+)$/;
+
+  rows.forEach(row => {
+    const match = row.name.match(regex);
+    if (match) {
+      const num = parseInt(match[1], 10);
+      if (num > maxNumber) maxNumber = num;
+    }
+  });
+
+  await db.end();
+
+  return `Chat ${maxNumber + 1}`;
+}
+
 app.post('/chat/new', async (req, res) => {
-  const { userId } = req.body;
+  const { userId, name } = req.body;
   if (!userId) return res.status(400).json({ error: "Usuário não informado." });
 
   try {
+    const chatName = await getNextChatName(userId, name);
+
     const db = await mysql.createConnection(dbConfig);
+
     const [result] = await db.query(
       "INSERT INTO chats (user_id, name) VALUES (?, ?)",
-      [userId, "Novo Chat"]
+      [userId, chatName]
     );
-    const chatId = result.insertId;
+
     await db.end();
-    res.json({ chatId: result.insertId });
+
+    res.json({ chatId: result.insertId, name: chatName });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Erro ao criar novo chat." });

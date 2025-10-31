@@ -6,12 +6,12 @@ CREATE TABLE users (
 );
 
 ALTER TABLE users
-ADD COLUMN profile_image VARCHAR(255) DEFAULT 'public/uploads/default.png';
+ADD COLUMN profile_image VARCHAR(255) DEFAULT 'public/uploads/default_photo.jpeg';
 
 CREATE TABLE chats (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    name VARCHAR(255) DEFAULT 'New Chat',
+    name VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
