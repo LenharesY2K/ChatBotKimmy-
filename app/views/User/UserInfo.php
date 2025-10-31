@@ -27,7 +27,7 @@
                     src="<?= str_replace('public/', '', $user['profile_image'] ?? 'uploads/default_photo.jpeg') ?>" alt="Profile"
                     alt="Foto do usuário"
                     class="profile-photo">
-                    <i class="fa-solid fa-camera camera-icon"></i>
+                <i class="fa-solid fa-camera camera-icon"></i>
             </div>
 
             <input type="file" name="imagem" id="inputImagem" accept="image/*" hidden>
@@ -45,15 +45,6 @@
     </div>
 </div>
 
-<?php if (!empty($success) && $success): ?>
-    <script>
-        alert("Usuário atualizado com sucesso!");
-    </script>
-<?php endif; ?>
-
 <?php include __DIR__ . '/../Templates/footer.php';
 
-if (isset($_GET['success'])) {
-    echo "<script>alert('Usuário editado com sucesso!');</script>";
-}
 ?>

@@ -18,6 +18,17 @@ class HomeController
 
         $user = $userModel->getById($userId);
 
+        if (!$userId) {
+            http_response_code(401);
+            return;
+        }
+
+        if (!$user) {
+            http_response_code(404);
+            include '../app/views/errors/404.php';
+            return;
+        }
+
         require __DIR__ . '/../views/home/index.php';
     }
 

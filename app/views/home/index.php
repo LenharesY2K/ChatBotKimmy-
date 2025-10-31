@@ -19,7 +19,8 @@
      <div class="sidebar">
          <div class="option-menu-icons">
              <i class="right-icon fa fa-fish-fins tooltip" id="fish"></i>
-             <i class="left-icon fa-regular fa-user fa-3x tooltip" id="user"></i>
+             <img src="<?= str_replace('public/', '', $user['profile_image'] ?? 'uploads/default_photo.jpeg') ?>" alt="Profile"
+                 alt="User" class="profile-sidebar left-icon" id="user">
          </div>
          <ul>
              <li>
@@ -42,10 +43,10 @@
 
          </ul>
          <div class="end-session">
-            <div class="yellow-line"></div>
+             <div class="yellow-line"></div>
              <div class="logout-btn">
+                 <i class="fa fa-right-from-bracket"></i>
                  <a href="/getStarted">Sair</a>
-                 <i class="fa-solid fa-power-off"></i>
              </div>
          </div>
 
