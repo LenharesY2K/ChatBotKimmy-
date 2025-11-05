@@ -1,10 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     const closeSidebarBtn = document.getElementById('CloseSidebar');
     const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay'); // ADICIONE ISSO
 
     if (closeSidebarBtn && sidebar) {
         closeSidebarBtn.addEventListener('click', function () {
             sidebar.classList.toggle('active');
+            
+            // ADICIONE CONTROLE DO OVERLAY
+            if (overlay) {
+                overlay.classList.toggle('active');
+            }
 
             const icon = closeSidebarBtn.querySelector('i');
             if (icon) {
@@ -16,13 +22,32 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        // Fechar ao clicar no overlay
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                
+                const icon = closeSidebarBtn.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-bars';
+                }
+            });
+        }
+
+        // Fechar ao clicar fora (mantendo seu código original também)
         document.addEventListener('click', function (event) {
             const isClickInsideSidebar = sidebar.contains(event.target);
             const isClickOnButton = closeSidebarBtn.contains(event.target);
+            const isClickOnOverlay = overlay && overlay.contains(event.target);
             const isMobile = window.innerWidth <= 768;
 
-            if (!isClickInsideSidebar && !isClickOnButton && sidebar.classList.contains('active') && isMobile) {
+            if (!isClickInsideSidebar && !isClickOnButton && !isClickOnOverlay && sidebar.classList.contains('active') && isMobile) {
                 sidebar.classList.remove('active');
+                
+                if (overlay) {
+                    overlay.classList.remove('active');
+                }
 
                 const icon = closeSidebarBtn.querySelector('i');
                 if (icon) {
@@ -35,6 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
             sidebar.classList.remove('active');
+            
+            // Remover overlay ao sair do modo mobile
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
         }
     });
 });
