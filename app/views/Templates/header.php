@@ -11,3 +11,11 @@
 </head>
 
 <body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="orb orb4"></div>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="shine"></div>
